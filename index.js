@@ -1,10 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import cors from "cors";
-
 import userRouter from "./router/users.js";
+
 const app = express();
+dotenv.config();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -15,12 +17,10 @@ app.get("/", (req, res) => {
 });
 app.use("/user", userRouter);
 
-const CONNECTION_URL =
-    "mongodb+srv://fullstackmern:fullstackmern123@cluster0.rveu9.mongodb.net/<dbname>?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 5000;
 
 mongoose
-    .connect(CONNECTION_URL, {
+    .connect(process.env.CONNECTION_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
